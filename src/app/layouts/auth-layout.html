@@ -1,0 +1,82 @@
+<!-- === FONDO MESH (reutiliza paleta Guest) === -->
+<div class="fixed inset-0 -z-10 bg-[#18181b] overflow-hidden select-none">
+  <svg class="absolute inset-0 w-full h-full pointer-events-none"
+       viewBox="0 0 1440 900" fill="none">
+    <defs>
+      <radialGradient id="meshGlow" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stop-color="#a78bfa" stop-opacity=".45" />
+        <stop offset="80%" stop-color="#232136" stop-opacity="0" />
+      </radialGradient>
+      <linearGradient id="meshLine" x1="0" y1="0" x2="100%" y2="100%">
+        <stop stop-color="#a78bfa" />
+        <stop offset="1" stop-color="#fbbf24" />
+      </linearGradient>
+    </defs>
+    <circle cx="400" cy="350" r="170" fill="url(#meshGlow)" />
+    <circle cx="1150" cy="660" r="140" fill="url(#meshGlow)" opacity=".25" />
+    <polyline points="180,500 340,380 590,500 730,340 920,520 1210,400"
+              stroke="url(#meshLine)" stroke-width="3" opacity=".3" fill="none"/>
+    <polyline points="350,680 460,610 920,660 1210,560"
+              stroke="url(#meshLine)" stroke-width="2" opacity=".2" fill="none"/>
+    <circle cx="340" cy="380" r="8"  fill="#a78bfa" />
+    <circle cx="730" cy="340" r="11" fill="#fbbf24" />
+    <circle cx="920" cy="520" r="7"  fill="#a78bfa" />
+    <circle cx="1210" cy="400" r="9"  fill="#a78bfa" />
+  </svg>
+</div>
+
+<!-- === LAYOUT ROOT === -->
+<div class="flex h-screen w-screen overflow-hidden text-white font-inter">
+
+  <!-- === SIDEBAR === -->
+  <aside class="w-72 shrink-0 flex flex-col bg-[#222234]/80 backdrop-blur border-r border-white/10">
+
+    <!-- PERFIL -->
+    <div class="flex flex-col items-center pt-10 pb-6">
+      <div class="h-16 w-16 rounded-full bg-yellow-400 text-gray-900 flex items-center justify-center text-3xl font-bold shadow-sm">
+        {{ getInitial((user$ | async)?.user?.name) }}
+      </div>
+      <p class="mt-3 font-semibold">
+        {{ (user$ | async)?.user?.name || '...' }}
+      </p>
+      <p class="text-xs text-gray-400">
+        {{ (user$ | async)?.user?.name || '' }}
+      </p>
+    </div>
+
+    <!-- NAV -->
+    <nav class="flex-1 px-6 space-y-1">
+      <a routerLink="/personas/crear" routerLinkActive="bg-[#2d2a45]"
+         class="flex gap-3 items-center px-4 py-2 rounded-md hover:bg-[#2d2a45]/70 transition">
+        Registrar personas
+      </a>
+      <a routerLink="/personas" routerLinkActive="bg-[#2d2a45]"
+         class="flex gap-3 items-center px-4 py-2 rounded-md hover:bg-[#2d2a45]/70 transition">
+        Ver personas
+      </a>
+      <a routerLink="/dashboard/graphs" routerLinkActive="bg-[#2d2a45]"
+         class="flex gap-3 items-center px-4 py-2 rounded-md hover:bg-[#2d2a45]/70 transition">
+        Gráficas
+      </a>
+      <a routerLink="/dashboard/auditorias" routerLinkActive="bg-[#2d2a45]"
+         class="flex gap-3 items-center px-4 py-2 rounded-md hover:bg-[#2d2a45]/70 transition">
+        Auditorías
+      </a>
+    </nav>
+
+    <!-- LOGOUT -->
+    <button (click)="logout()"
+            class="mx-6 mb-8 mt-auto px-4 py-2 rounded-md
+         bg-gradient-to-r from-red-500 to-red-600 hover:to-red-700
+         transition cursor-pointer">
+      Cerrar sesión
+    </button>
+  </aside>
+
+  <!-- === MAIN === -->
+  <main class="flex-1 overflow-y-auto">
+    <section class="p-10">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

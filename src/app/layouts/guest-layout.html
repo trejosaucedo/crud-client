@@ -1,0 +1,43 @@
+<div class="fixed inset-0 w-full h-screen flex items-center justify-center overflow-hidden select-none z-0 bg-[#18181b]">
+  <svg class="absolute inset-0 w-full h-full max-w-full max-h-full pointer-events-none" viewBox="0 0 1440 900" fill="none" style="z-index:1">
+    <defs>
+      <radialGradient id="glow1" cx="50%" cy="50%" r="60%">
+        <stop offset="0%" stop-color="#a78bfa" stop-opacity="0.5" />
+        <stop offset="80%" stop-color="#232136" stop-opacity="0.0" />
+      </radialGradient>
+      <linearGradient id="meshLine" x1="0" y1="0" x2="100%" y2="100%">
+        <stop stop-color="#a78bfa" />
+        <stop offset="1" stop-color="#fbbf24" />
+      </linearGradient>
+    </defs>
+    <circle cx="400" cy="400" r="180" fill="url(#glow1)" opacity="0.5"/>
+    <circle cx="1200" cy="700" r="150" fill="url(#glow1)" opacity="0.18"/>
+    <polyline points="200,500 350,380 600,480 700,320 900,500 1200,380" stroke="url(#meshLine)" stroke-width="4" fill="none" opacity="0.34" class="glow"/>
+    <polyline points="350,680 450,600 900,650 1200,550" stroke="url(#meshLine)" stroke-width="3" fill="none" opacity="0.20"/>
+    <polyline points="600,480 700,600 1050,700 1200,550" stroke="url(#meshLine)" stroke-width="3" fill="none" opacity="0.22"/>
+    <polyline points="400,400 550,250 850,300 1100,480 1200,380" stroke="url(#meshLine)" stroke-width="3" fill="none" opacity="0.13"/>
+    <polyline points="300,200 400,400 700,320 1050,200" stroke="url(#meshLine)" stroke-width="2.2" fill="none" opacity="0.15"/>
+    <polyline points="350,380 350,680" stroke="url(#meshLine)" stroke-width="2" fill="none" opacity="0.13"/>
+    <polyline points="600,480 900,650" stroke="url(#meshLine)" stroke-width="2" fill="none" opacity="0.14"/>
+    <polyline points="1050,200 1200,380" stroke="url(#meshLine)" stroke-width="2" fill="none" opacity="0.14"/>
+    <circle cx="350" cy="380" r="9" fill="#a78bfa" opacity="0.9" class="glow"/>
+    <circle cx="700" cy="320" r="12" fill="#fbbf24" opacity="0.8" class="glow"/>
+    <circle cx="900" cy="500" r="8" fill="#a78bfa" opacity="0.7" />
+    <circle cx="1200" cy="380" r="10" fill="#a78bfa" opacity="0.6" />
+    <circle cx="900" cy="650" r="7" fill="#fbbf24" opacity="0.7" />
+    <circle cx="450" cy="600" r="7" fill="#a78bfa" opacity="0.5" />
+    <circle cx="1050" cy="700" r="10" fill="#a78bfa" opacity="0.6" />
+    <circle cx="400" cy="400" r="7" fill="#a78bfa" opacity="0.6" />
+    <circle cx="1200" cy="550" r="10" fill="#a78bfa" opacity="0.4" />
+    <circle cx="550" cy="250" r="8" fill="#fbbf24" opacity="0.5" />
+    <circle cx="850" cy="300" r="8" fill="#a78bfa" opacity="0.6" />
+    <circle cx="1100" cy="480" r="9" fill="#a78bfa" opacity="0.6" />
+    <circle cx="600" cy="480" r="9" fill="#a78bfa" opacity="0.7" />
+    <circle cx="700" cy="600" r="7" fill="#fbbf24" opacity="0.7" />
+    <circle cx="1050" cy="200" r="8" fill="#fbbf24" opacity="0.6" />
+    <circle cx="300" cy="200" r="6" fill="#a78bfa" opacity="0.6" />
+  </svg>
+  <div class="relative z-10 flex flex-col items-center justify-center text-center w-full h-screen">
+    <router-outlet></router-outlet>
+  </div>
+</div>

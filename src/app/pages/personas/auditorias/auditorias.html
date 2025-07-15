@@ -1,0 +1,80 @@
+<div class="p-4 md:p-6">
+  <h2 class="text-xl md:text-2xl font-bold mb-4 md:mb-6">Auditoría de Personas</h2>
+
+  @if (loading) {
+    <div class="text-center py-6 text-sm">Cargando...</div>
+  }
+  @if (error) {
+    <div class="text-center text-red-400 py-4 font-semibold text-sm">{{ error }}</div>
+  }
+  @if (!loading && !error && auditorias.length === 0) {
+    <div class="text-center text-gray-400 py-4 text-sm">
+      No hay auditorías registradas.
+    </div>
+  }
+
+  @if (!loading && auditorias.length > 0) {
+    <div class="overflow-x-auto">
+      <table class="min-w-full bg-[#232136] rounded-lg shadow text-xs md:text-sm text-white border-separate border-spacing-0">
+        <thead>
+        <tr class="bg-[#181825]/80 text-xs md:text-sm">
+          <th class="px-2 py-1 font-semibold">Acción</th>
+          <th class="px-2 py-1 font-semibold">Entidad</th>
+          <th class="px-2 py-1 font-semibold">Persona ID</th>
+          <th class="px-2 py-1 font-semibold">Usuario</th>
+          <th class="px-2 py-1 font-semibold">Fecha</th>
+          <th class="px-2 py-1 font-semibold w-28 md:w-32">Datos</th>
+        </tr>
+        </thead>
+        <tbody>
+          @for (audit of auditorias; track audit.fecha) {
+            <tr class="border-b border-[#2d2a45]/30 hover:bg-[#292b42]">
+              <td class="px-2 py-1">{{ audit.accion }}</td>
+              <td class="px-2 py-1">{{ audit.entidad }}</td>
+              <td class="px-2 py-1 break-all max-w-[8rem]">{{ audit.personaId }}</td>
+              <td class="px-2 py-1">{{ audit.usuario || '-' }}</td>
+              <td class="px-2 py-1 whitespace-nowrap">
+                {{ audit.fecha | date:'medium' }}
+              </td>
+              <td class="px-2 py-1 align-top">
+                <button
+                  type="button"
+                  class="underline text-violet-300 hover:text-violet-400 transition text-xs"
+                  (click)="openModal(audit)">
+                  Ver datos
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- === MODAL DATOS AUDITORÍA === -->
+  @if (selectedAudit) {
+    <div class="fixed inset-0 z-40 bg-black/50 flex items-center justify-center px-4">
+      <div class="bg-[#232136] rounded-2xl shadow-lg max-w-lg w-full p-6 relative animate-fade-in">
+        <button
+          type="button"
+          class="absolute top-2 right-2 text-gray-400 hover:text-white text-xl"
+          (click)="closeModal()">
+          &times;
+        </button>
+        <h3 class="text-lg font-bold mb-3">Datos de Auditoría</h3>
+        <div class="mb-4">
+          <div class="text-xs text-gray-400 mb-1">Acción: <span class="text-white font-semibold">{{ selectedAudit.accion }}</span></div>
+          <div class="text-xs text-gray-400 mb-1">Entidad: <span class="text-white font-semibold">{{ selectedAudit.entidad }}</span></div>
+          <div class="text-xs text-gray-400 mb-1">Persona ID: <span class="text-white font-semibold">{{ selectedAudit.personaId }}</span></div>
+          <div class="text-xs text-gray-400 mb-1">Usuario: <span class="text-white font-semibold">{{ selectedAudit.usuario || '-' }}</span></div>
+          <div class="text-xs text-gray-400 mb-1">Fecha: <span class="text-white font-semibold">{{ selectedAudit.fecha | date:'medium' }}</span></div>
+        </div>
+        <div>
+          <pre class="bg-[#181825] rounded p-3 text-[11px] leading-tight text-white max-h-72 overflow-y-auto whitespace-pre-wrap break-all">
+{{ selectedAudit.datos | json }}
+          </pre>
+        </div>
+      </div>
+    </div>
+  }
+</div>

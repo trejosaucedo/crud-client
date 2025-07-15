@@ -1,0 +1,142 @@
+<div class="p-8">
+  <h1 class="text-2xl font-bold mb-6">Lista de personas</h1>
+
+  <!-- Avisos toast -->
+  @if (successMsg) {
+    <div class="mb-4 px-4 py-2 rounded-lg bg-green-600/20 text-green-300">
+      {{ successMsg }}
+    </div>
+  }
+  @if (errorMsg) {
+    <div class="mb-4 px-4 py-2 rounded-lg bg-red-600/20 text-red-400">
+      {{ errorMsg }}
+    </div>
+  }
+
+  <!-- Tabla -->
+  <div class="overflow-x-auto rounded-xl border border-white/10">
+    <table class="min-w-full text-sm text-white/90">
+      <thead class="bg-[#2d2a45] text-left text-gray-400">
+      <tr>
+        <th class="py-3 px-4">Nombre completo</th>
+        <th class="py-3 px-4">Edad</th>
+        <th class="py-3 px-4">Género</th>
+        <th class="py-3 px-4">Creado</th>
+        <th class="py-3 px-4 text-center w-24">Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (p of personas; track p.id) {
+          <tr class="border-b border-white/5">
+            <td class="py-3 px-4">
+              {{ p.nombre }} {{ p.apellidoPaterno }} {{ p.apellidoMaterno }}
+            </td>
+            <td class="py-3 px-4">{{ p.edad }}</td>
+            <td class="py-3 px-4 capitalize">{{ p.genero }}</td>
+            <td class="py-3 px-4">{{ p.createdAt | date : 'mediumDate' }}</td>
+            <td class="py-3 px-4 text-center">
+              <button type="button" (click)="openEditModal(p)" class="hover:text-yellow-300 mr-2">✏️</button>
+              <button type="button" (click)="delete(p)"        class="hover:text-red-400">🗑️</button>
+            </td>
+          </tr>
+        }
+        @if (loading) {
+          <tr>
+            <td colspan="5" class="py-4 text-center text-gray-400">Cargando…</td>
+          </tr>
+        }
+        @if (!loading && personas.length === 0) {
+          <tr>
+            <td colspan="5" class="py-4 text-center text-gray-400">Sin registros</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  <div class="flex items-center justify-between mt-4 text-sm">
+    <button type="button" (click)="prevPage()" [disabled]="meta.currentPage === 1 || loading"
+            class="px-4 py-2 rounded-md bg-white/10 hover:bg-white/20 disabled:opacity-40">
+      ← Anterior
+    </button>
+    <span class="text-gray-400">
+      Página {{ meta.currentPage }} de {{ meta.lastPage }}
+    </span>
+    <button type="button" (click)="nextPage()" [disabled]="meta.currentPage === meta.lastPage || loading"
+            class="px-4 py-2 rounded-md bg-white/10 hover:bg-white/20 disabled:opacity-40">
+      Siguiente →
+    </button>
+  </div>
+
+  <!-- Modal edición -->
+  @if (showEditModal) {
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
+      <form [formGroup]="editForm" (ngSubmit)="saveEdit()"
+            class="w-full max-w-md bg-[#232136] rounded-2xl p-8 shadow-xl space-y-5">
+
+        <h3 class="text-xl font-bold">Editar persona</h3>
+
+        <!-- Nombre -->
+        <div class="space-y-1">
+          <input formControlName="nombre" placeholder="Nombre"
+                 class="w-full rounded-lg px-3 py-2 bg-[#1a1a22] border border-[#3f3a5a] text-white"/>
+          @if (fieldErrors.nombre) {
+            <span class="text-xs text-red-400">• {{ fieldErrors.nombre }}</span>
+          }
+        </div>
+
+        <!-- Apellido paterno -->
+        <div class="space-y-1">
+          <input formControlName="apellido_paterno" placeholder="Apellido paterno"
+                 class="w-full rounded-lg px-3 py-2 bg-[#1a1a22] border border-[#3f3a5a] text-white"/>
+          @if (fieldErrors.apellido_paterno) {
+            <span class="text-xs text-red-400">• {{ fieldErrors.apellido_paterno }}</span>
+          }
+        </div>
+
+        <!-- Apellido materno -->
+        <div class="space-y-1">
+          <input formControlName="apellido_materno" placeholder="Apellido materno"
+                 class="w-full rounded-lg px-3 py-2 bg-[#1a1a22] border border-[#3f3a5a] text-white"/>
+          @if (fieldErrors.apellido_materno) {
+            <span class="text-xs text-red-400">• {{ fieldErrors.apellido_materno }}</span>
+          }
+        </div>
+
+        <!-- Edad -->
+        <div class="space-y-1">
+          <input type="number" formControlName="edad" placeholder="Edad"
+                 class="w-full rounded-lg px-3 py-2 bg-[#1a1a22] border border-[#3f3a5a] text-white"/>
+          @if (fieldErrors.edad) {
+            <span class="text-xs text-red-400">• {{ fieldErrors.edad }}</span>
+          }
+        </div>
+
+        <!-- Género -->
+        <div class="space-y-1">
+          <select formControlName="genero"
+                  class="w-full rounded-lg px-3 py-2 bg-[#1a1a22] border border-[#3f3a5a] text-white">
+            <option value="" disabled selected>Selecciona género</option>
+            <option value="femenino">Femenino</option>
+            <option value="masculino">Masculino</option>
+            <option value="otro">Otro</option>
+          </select>
+          @if (fieldErrors.genero) {
+            <span class="text-xs text-red-400">• {{ fieldErrors.genero }}</span>
+          }
+        </div>
+
+        <!-- Botones -->
+        <div class="flex justify-end gap-4 pt-4">
+          <button type="button" (click)="closeEdit()"
+                  class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20">Cancelar</button>
+          <button type="submit" [disabled]="saving"
+                  class="px-4 py-2 rounded-lg bg-yellow-400 text-gray-900 font-bold disabled:opacity-40">
+            {{ saving ? 'Guardando…' : 'Guardar cambios' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  }
+</div>

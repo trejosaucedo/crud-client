@@ -1,0 +1,114 @@
+<div class="px-8 py-10 max-w-3xl mx-auto">
+  <h1 class="text-3xl font-bold mb-10">Gráficas rápidas</h1>
+
+  <!-- Gráfica 1: Distribución por género -->
+  <section class="mb-14">
+    <h2 class="text-lg font-semibold mb-4">Distribución por género</h2>
+    @if (stats?.grafica1; as g1) {
+      <!-- Mujeres -->
+      <div class="flex items-center gap-3 mb-3">
+        <span class="w-36 text-sm text-gray-300">Mujeres</span>
+        <div class="flex-1 h-6 rounded-lg bg-[#2d2a45] overflow-hidden">
+          <div
+            class="h-full bg-pink-500/80 rounded-l-lg transition-all duration-500"
+            [style.width.%]="bar(g1.mujeres, [g1.mujeres, g1.hombres])"
+          ></div>
+        </div>
+        <span class="w-8 text-right text-sm font-bold">{{ g1.mujeres }}</span>
+      </div>
+      <!-- Hombres -->
+      <div class="flex items-center gap-3">
+        <span class="w-36 text-sm text-gray-300">Hombres</span>
+        <div class="flex-1 h-6 rounded-lg bg-[#2d2a45] overflow-hidden">
+          <div
+            class="h-full bg-blue-500/80 rounded-l-lg transition-all duration-500"
+            [style.width.%]="bar(g1.hombres, [g1.mujeres, g1.hombres])"
+          ></div>
+        </div>
+        <span class="w-8 text-right text-sm font-bold">{{ g1.hombres }}</span>
+      </div>
+    }
+  </section>
+
+  <!-- Gráfica 2: Adultos vs. menores -->
+  <section class="mb-14">
+    <h2 class="text-lg font-semibold mb-4">Adultos vs. menores</h2>
+    @if (stats?.grafica2; as g2) {
+      <div class="flex items-center gap-3 mb-3">
+        <span class="w-36 text-sm text-gray-300">Adultos</span>
+        <div class="flex-1 h-6 rounded-lg bg-[#2d2a45] overflow-hidden">
+          <div
+            class="h-full bg-green-400/80 rounded-l-lg transition-all duration-500"
+            [style.width.%]="bar(g2.adultos, [g2.adultos, g2.menores])"
+          ></div>
+        </div>
+        <span class="w-8 text-right text-sm font-bold">{{ g2.adultos }}</span>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="w-36 text-sm text-gray-300">Menores</span>
+        <div class="flex-1 h-6 rounded-lg bg-[#2d2a45] overflow-hidden">
+          <div
+            class="h-full bg-yellow-300/80 rounded-l-lg transition-all duration-500"
+            [style.width.%]="bar(g2.menores, [g2.adultos, g2.menores])"
+          ></div>
+        </div>
+        <span class="w-8 text-right text-sm font-bold">{{ g2.menores }}</span>
+      </div>
+    }
+  </section>
+
+  <!-- Gráfica 3: Género + Edad -->
+  <section>
+    <h2 class="text-lg font-semibold mb-4">Género + edad</h2>
+    @if (stats?.grafica3; as g3) {
+      <!-- Mujeres +18 -->
+      <div class="flex items-center gap-3 mb-3">
+        <span class="w-36 text-sm text-gray-300">Muj. +18</span>
+        <div class="flex-1 h-6 rounded-lg bg-[#2d2a45] overflow-hidden">
+          <div
+            class="h-full bg-pink-500/80 rounded-l-lg transition-all duration-500"
+            [style.width.%]="bar(g3.mujeres_mayores, barsG3)"
+          ></div>
+        </div>
+        <span class="w-8 text-right text-sm font-bold">{{ g3.mujeres_mayores }}</span>
+      </div>
+      <!-- Mujeres -18 -->
+      <div class="flex items-center gap-3 mb-3">
+        <span class="w-36 text-sm text-gray-300">Muj. &lt;18</span>
+        <div class="flex-1 h-6 rounded-lg bg-[#2d2a45] overflow-hidden">
+          <div
+            class="h-full bg-pink-200/80 rounded-l-lg transition-all duration-500"
+            [style.width.%]="bar(g3.mujeres_menores, barsG3)"
+          ></div>
+        </div>
+        <span class="w-8 text-right text-sm font-bold">{{ g3.mujeres_menores }}</span>
+      </div>
+      <!-- Hombres +18 -->
+      <div class="flex items-center gap-3 mb-3">
+        <span class="w-36 text-sm text-gray-300">Hom. +18</span>
+        <div class="flex-1 h-6 rounded-lg bg-[#2d2a45] overflow-hidden">
+          <div
+            class="h-full bg-blue-500/80 rounded-l-lg transition-all duration-500"
+            [style.width.%]="bar(g3.hombres_mayores, barsG3)"
+          ></div>
+        </div>
+        <span class="w-8 text-right text-sm font-bold">{{ g3.hombres_mayores }}</span>
+      </div>
+      <!-- Hombres -18 -->
+      <div class="flex items-center gap-3">
+        <span class="w-36 text-sm text-gray-300">Hom. &lt;18</span>
+        <div class="flex-1 h-6 rounded-lg bg-[#2d2a45] overflow-hidden">
+          <div
+            class="h-full bg-blue-200/80 rounded-l-lg transition-all duration-500"
+            [style.width.%]="bar(g3.hombres_menores, barsG3)"
+          ></div>
+        </div>
+        <span class="w-8 text-right text-sm font-bold">{{ g3.hombres_menores }}</span>
+      </div>
+    }
+  </section>
+
+  @if (error) {
+    <p class="text-red-500 text-sm mt-6 text-center">{{ error }}</p>
+  }
+</div>
